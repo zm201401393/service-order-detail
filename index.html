@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>服务单详情 · AI 审核增强原型</title>
+<style>
+:root{
+  --bg:#f2f4f7; --panel:#fff; --line:#e8eaed; --line2:#f0f1f3;
+  --ink:#1a1a1a; --ink2:#5c6069; --ink3:#9298a1;
+  --blue:#2f6bff; --blue-bg:#eaf1ff; --blue-line:#cfe0ff;
+  --red:#e5484d; --red-bg:#fdecec; --red-line:#f7c9cb;
+  --green:#12a150; --green-bg:#e7f6ee; --green-line:#bfe6cf;
+  --amber:#d98a00; --amber-bg:#fef4e2; --amber-line:#f6dfae;
+  --purple:#7b5bff; --purple-bg:#f0ecff; --purple-line:#dcd2ff;
+  --radius:8px; --radius-lg:12px;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1260px;margin:0 auto;padding:16px}
+
+/* ============ 顶部状态区 ============ */
+.topbar{background:linear-gradient(180deg,#e9f0ff 0%,#f4f7ff 60%,#fff 100%);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 24px 18px;box-shadow:var(--shadow)}
+.top-title{font-size:20px;font-weight:700;letter-spacing:.5px}
+.top-sub{color:var(--ink2);font-size:12px;margin-top:6px}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:13px;transition:.15s}
+.btn:hover{border-color:#c4c8ce}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.btn-primary:hover{background:#1f5aed}
+.btn-link{border:none;background:none;color:var(--ink2);padding:7px 6px;cursor:pointer}
+.btn-link:hover{color:var(--blue)}
+.remark{margin-top:14px;font-size:12px;color:var(--ink2)}
+.remark .lbl{color:var(--ink3);margin-right:8px}
+.remark .row{margin-top:6px}
+.tag-flag{display:inline-block;background:#fff;border:1px solid var(--amber-line);color:var(--amber);border-radius:4px;padding:0 6px;margin-right:6px;font-size:11px}
+.a{color:var(--blue);cursor:pointer;text-decoration:none}
+
+/* ============ AI 卡片条 ============ */
+.ai-bar{margin:14px 0;background:linear-gradient(120deg,#f6f4ff 0%,#eef4ff 100%);border:1px solid var(--purple-line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
+.ai-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:linear-gradient(90deg,rgba(123,91,255,.10),rgba(47,107,255,.06));border-bottom:1px dashed var(--purple-line)}
+.ai-avatar{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#7b5bff,#2f6bff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex:none;box-shadow:0 2px 6px rgba(123,91,255,.35)}
+.ai-title{font-weight:700;font-size:13px;color:#4a3fb0}
+.ai-concl{display:flex;align-items:center;gap:8px;flex:1;font-size:13px}
+.concl-badge{font-weight:700;padding:2px 10px;border-radius:20px;font-size:12px;flex:none}
+.concl-agree{background:var(--green-bg);color:var(--green);border:1px solid var(--green-line)}
+.concl-caution{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line)}
+.concl-reject{background:var(--red-bg);color:var(--red);border:1px solid var(--red-line)}
+.concl-text{color:var(--ink);font-weight:500}
+.ai-feedback{margin-left:auto;font-size:11px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex:none}
+.ai-feedback .fb{cursor:pointer;padding:2px 5px;border-radius:4px}
+.ai-feedback .fb:hover{background:#fff}
+.ai-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.ai-col{padding:12px 18px 14px;border-right:1px dashed var(--purple-line)}
+.ai-col:last-child{border-right:none}
+.ai-col-h{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:.5px;margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.ai-col-h .dot{width:6px;height:6px;border-radius:50%;background:var(--purple)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11.5px;padding:2px 9px;border-radius:5px;border:1px solid var(--line);background:#fff;color:var(--ink2);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+.chip-red{background:var(--red-bg);border-color:var(--red-line);color:var(--red)}
+.chip-red b{color:var(--red)}
+.chip-amber{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
+.chip-amber b{color:var(--amber)}
+.chip-green{background:var(--green-bg);border-color:var(--green-line);color:var(--green)}
+.chip-green b{color:var(--green)}
+.chip-blue{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue)}
+.chip-blue b{color:var(--blue)}
+.chip .ico{font-size:11px}
+.kv-line{font-size:12px;color:var(--ink2);margin-top:5px;display:flex;gap:6px}
+.kv-line .k{color:var(--ink3);flex:none}
+.kv-line .v{color:var(--ink);font-weight:500}
+
+/* ============ 主体两栏 ============ */
+.main{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:16px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+.panel-h{background:#f7f8fa;padding:11px 18px;font-weight:600;font-size:13px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between}
+.panel-h .tags{display:flex;gap:6px}
+.mini-tag{font-size:11px;color:var(--ink2);background:#eef0f3;border-radius:4px;padding:1px 8px}
+.panel-b{padding:16px 18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 32px}
+.field{display:flex;font-size:12.5px;line-height:1.7}
+.field .k{color:var(--ink3);width:78px;flex:none}
+.field .v{color:var(--ink);flex:1}
+.badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;margin-right:5px}
+.badge-red{background:var(--red-bg);color:var(--red)}
+.badge-blue{background:var(--blue-bg);color:var(--blue)}
+.evi{width:34px;height:34px;border-radius:6px;background:#f0f1f3 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%239298a1" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>') center/20px no-repeat;border:1px solid var(--line);display:inline-block;vertical-align:middle}
+
+/* 右栏 */
+.prod{display:flex;gap:12px}
+.prod-img{width:56px;height:56px;border-radius:8px;background:#f0f1f3;flex:none;display:flex;align-items:center;justify-content:center;font-size:22px}
+.prod-info{flex:1;font-size:12.5px}
+.prod-name{color:var(--ink);line-height:1.4}
+.prod-spec{color:var(--ink3);margin-top:3px}
+.prod-price{float:right;text-align:right}
+.prod-price .p{color:var(--ink);font-weight:600}
+.prod-price .n{color:var(--ink3);font-size:11px}
+.hr{height:1px;background:var(--line2);margin:14px 0}
+.tool-grid{display:flex;gap:24px;padding:4px 0}
+.tool{text-align:center;cursor:pointer}
+.tool-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px}
+.tool-1{background:var(--blue-bg)}
+.tool-2{background:var(--red-bg)}
+.tool span{font-size:12px;color:var(--ink2)}
+
+/* ============ TAB 区 ============ */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);background:#f7f8fa;padding:0 8px}
+.tab{padding:12px 16px;font-size:13px;color:var(--ink2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;position:relative;font-weight:500;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+.tab .count{display:inline-block;background:#e5484d;color:#fff;font-size:10px;border-radius:9px;padding:0 5px;margin-left:4px;vertical-align:top;line-height:15px;min-width:15px;text-align:center}
+.tab .count.gray{background:#c4c8ce}
+.tab-body{padding:18px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* 日志 timeline */
+.tl-item{display:flex;gap:12px;padding-bottom:18px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:6px;top:18px;bottom:-4px;width:1px;background:var(--line)}
+.tl-dot{width:13px;height:13px;border-radius:3px;flex:none;margin-top:2px;background:repeating-linear-gradient(45deg,#e5484d,#e5484d 2px,#fff 2px,#fff 4px);border:1px solid #e5484d}
+.tl-c{flex:1}
+.tl-title{font-weight:600;font-size:13px}
+.tl-desc{color:var(--ink2);font-size:12.5px;margin-top:4px;line-height:1.6}
+.tl-meta{display:flex;gap:40px;margin-top:6px;font-size:12px;color:var(--ink3)}
+.tl-meta .v{color:var(--ink2)}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{background:#f7f8fa;color:var(--ink3);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:middle}
+tr:hover td{background:#fafbfc}
+.t-num{color:var(--blue);cursor:pointer}
+.pill{display:inline-block;font-size:11px;padding:1px 8px;border-radius:20px;font-weight:500}
+.pill-return{background:var(--red-bg);color:var(--red)}
+.pill-exchange{background:var(--amber-bg);color:var(--amber)}
+.pill-pass{background:var(--green-bg);color:var(--green)}
+.pill-reject{background:#f0f1f3;color:var(--ink2)}
+.pill-ing{background:var(--blue-bg);color:var(--blue)}
+.amt{color:var(--red);font-weight:600}
+.amt-0{color:var(--ink3);font-weight:400}
+
+/* 汇总小卡 */
+.sum-row{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sum-card{flex:1;min-width:150px;background:#f7f8fa;border:1px solid var(--line2);border-radius:8px;padding:12px 14px}
+.sum-card .lbl{font-size:11.5px;color:var(--ink3)}
+.sum-card .big{font-size:20px;font-weight:700;margin-top:3px}
+.sum-card .sub{font-size:11px;color:var(--ink3);margin-top:2px}
+.section-h{font-size:13px;font-weight:600;margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.section-h::before{content:'';width:3px;height:13px;background:var(--blue);border-radius:2px}
+.section-h .note{font-weight:400;color:var(--ink3);font-size:11.5px}
+
+/* 挽单卡 */
+.retain-card{border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;gap:16px;align-items:center;margin-bottom:12px}
+.retain-ic{width:40px;height:40px;border-radius:10px;background:var(--amber-bg);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.retain-main{flex:1}
+.retain-main .t{font-weight:600}
+.retain-main .d{color:var(--ink2);font-size:12px;margin-top:3px}
+.retain-amt{text-align:right}
+.retain-amt .n{font-size:18px;font-weight:700;color:var(--amber)}
+.retain-amt .l{font-size:11px;color:var(--ink3)}
+
+/* 协商会话 */
+.conv-head{background:#f7f8fa;border:1px solid var(--line2);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;margin-top:4px}
+.conv-grid .field .k{width:60px}
+.conv-badge{font-size:11px;padding:1px 8px;border-radius:4px;background:var(--purple-bg);color:var(--purple);margin-left:8px}
+.chat{max-height:280px;overflow:auto;padding:4px 2px}
+.msg{margin-bottom:14px;max-width:72%}
+.msg.left{margin-right:auto}
+.msg.right{margin-left:auto;text-align:right}
+.msg .bubble{display:inline-block;padding:8px 12px;border-radius:10px;font-size:12.5px;text-align:left;line-height:1.5}
+.msg.left .bubble{background:#f0f1f3;color:var(--ink);border-top-left-radius:2px}
+.msg.right .bubble{background:var(--blue-bg);color:var(--ink);border-top-right-radius:2px}
+.msg .who{font-size:11px;color:var(--ink3);margin-bottom:4px}
+.empty{text-align:center;color:var(--ink3);padding:40px 0;font-size:12.5px}
+.empty .ic{font-size:28px;opacity:.5;display:block;margin-bottom:8px}
+.legend{font-size:11px;color:var(--ink3);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:flex;gap:16px;flex-wrap:wrap}
+.legend b{color:var(--ink2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ 顶部状态区 ============ -->
+  <div class="topbar">
+    <div class="top-title">客户申请退货，待商家审核</div>
+    <div class="top-sub">考核已于 2026-07-21 09:20:00 超时，请尽快处理，避免引起用户投诉</div>
+    <div class="actions">
+      <button class="btn btn-primary">同意申请</button>
+      <button class="btn">拒绝申请</button>
+      <button class="btn">待反馈</button>
+      <button class="btn">客户放弃</button>
+      <button class="btn-link">✉ 发送短信</button>
+      <button class="btn-link">☎ 预约回电提醒</button>
+    </div>
+    <div class="remark">
+      <div class="row"><span class="lbl">订单备注</span>暂无订单备注 <a class="a">＋添加</a></div>
+      <div class="row"><span class="lbl">售后备注</span><span class="tag-flag">🚩 2222</span>（2026-07-21 15:09:23 测试供应商） <a class="a">＋添加</a> <a class="a">查看历史备注</a></div>
+    </div>
+  </div>
+
+  <!-- ============ AI 关键信息提取卡片条 ============ -->
+  <div class="ai-bar">
+    <div class="ai-head">
+      <div class="ai-avatar">✦</div>
+      <div class="ai-title">AI 审核助手</div>
+      <div class="ai-concl">
+        <span class="concl-badge concl-caution">建议谨慎审核</span>
+        <span class="concl-text">该客户 <b>近6个月已退货2次</b>、当前商品完成当天即申请，存在薅羊毛风险，建议核实凭证与协商记录后再决策。</span>
+      </div>
+      <div class="ai-feedback">智能分析是否有帮助 <span class="fb">👍</span><span class="fb">👎</span></div>
+    </div>
+    <div class="ai-cols">
+      <!-- 列1 申请要点 -->
+      <div class="ai-col">
+        <div class="ai-col-h"><span class="dot"></span>申请要点</div>
+        <div class="chips">
+          <span class="chip chip-red"><b>退货退款</b></span>
+          <span class="chip">原因：外包装破损/化冻/冻坏</span>
+          <span class="chip">问题商品占比 71%~100%</span>
+        </div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip chip-green"><span class="ico">📷</span>已上传售后凭证</span>
+          <span class="chip chip-blue">7天无理由</span>
+          <span class="chip chip-amber">只换不修</span>
+        </div>
+      </div>
+      <!-- 列2 商品与时效 -->
+      <div class="ai-col">
+        <div class="ai-col-h"><span class="dot"></span>商品与时效</div>
+        <div class="chips">
+          <span class="chip chip-amber"><span class="ico">⏱</span>下单完成 <b>当天(0天)</b> 即申请</span>
+          <span class="chip">货损比 71%~100%</span>
+        </div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip chip-blue">PLUS 会员</span>
+          <span class="chip">数电普票·可直接冲红</span>
+        </div>
+      </div>
+      <!-- 列3 历史与风险 -->
+      <div class="ai-col">
+        <div class="ai-col-h"><span class="dot"></span>历史与风险</div>
+        <div class="chips">
+          <span class="chip chip-red"><span class="ico">⚠</span>历史退货 <b>2次</b></span>
+          <span class="chip chip-amber">历史换货 <b>1次</b></span>
+          <span class="chip chip-green">领过挽单方案·未打款</span>
+        </div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip">历史退款 ¥5.30</span>
+          <span class="chip chip-red">咚咚：未就换货/补偿达成一致</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 主体两栏 ============ -->
+  <div class="main">
+    <!-- 左栏 -->
+    <div class="col-left">
+      <!-- 申请信息 -->
+      <div class="panel">
+        <div class="panel-h">申请信息
+          <div class="tags"><span class="mini-tag">免费上门退换</span><span class="mini-tag">运费险</span><span class="mini-tag">驳回待审核标识</span></div>
+        </div>
+        <div class="panel-b">
+          <div class="grid2">
+            <div class="field"><span class="k">服务单号</span><span class="v">JD2507xxxx</span></div>
+            <div class="field"><span class="k">申请时订单状态</span><span class="v">-</span></div>
+            <div class="field"><span class="k">售后类型</span><span class="v"><span class="badge badge-red">退</span>退货</span></div>
+            <div class="field"><span class="k">售后政策</span><span class="v">支持7天无理由退货</span></div>
+            <div class="field"><span class="k">申退金额</span><span class="v">-</span></div>
+            <div class="field"><span class="k">商品件数</span><span class="v">1</span></div>
+            <div class="field"><span class="k">返件方式</span><span class="v"><span class="badge badge-red">退</span>客户发货</span></div>
+            <div class="field"><span class="k">货损比例</span><span class="v">71%~100%</span></div>
+            <div class="field"><span class="k">售后原因</span><span class="v">商品外包装破损/化冻/冻坏</span></div>
+            <div class="field"><span class="k">商品状态</span><span class="v">-</span></div>
+            <div class="field"><span class="k">问题描述</span><span class="v">11 问题商品占比：71%~100%</span></div>
+            <div class="field"><span class="k">售后凭证</span><span class="v"><span class="evi"></span></span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 物流信息 -->
+      <div class="panel">
+        <div class="panel-h">物流信息</div>
+        <div class="panel-b">
+          <div style="font-weight:600;margin-bottom:8px">发货物流</div>
+          <div class="field"><span class="k">物流信息</span><span class="v">XX快递　JDVA45871622465 📋</span></div>
+        </div>
+      </div>
+      <!-- ===== TAB 区 ===== -->
+      <div class="panel">
+        <div class="tabs" id="tabs">
+          <div class="tab active" data-tab="log">服务单日志</div>
+          <div class="tab" data-tab="history">历史服务单<span class="count">3</span></div>
+          <div class="tab" data-tab="retain">挽单信息<span class="count gray">1</span></div>
+          <div class="tab" data-tab="refund">退款记录<span class="count gray">1</span></div>
+          <div class="tab" data-tab="conv">协商历史<span class="count">2</span></div>
+        </div>
+        <div class="tab-body">
+
+          <!-- 日志 -->
+          <div class="tab-pane active" data-pane="log">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-c">
+                <div class="tl-title">驳回到待审核</div>
+                <div class="tl-desc">无法上门取件，原因：订单中心下单失败-下单失败快递运订单接单的基本信息-货品体积必须小于100000001立方厘米</div>
+                <div class="tl-meta"><span>操作时间 <span class="v">2026-07-22 21:00:50</span></span><span>操作人 <span class="v">返件系统</span></span></div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-c">
+                <div class="tl-title">审核通过</div>
+                <div class="tl-desc">服务单由[测试供应商]审核通过，系统已自动派发上门取件任务，预约取件时间 2026-07-23 (周四) 08:00-10:00</div>
+                <div class="tl-meta"><span>操作时间 <span class="v">2026-07-22 21:00:16</span></span><span>操作人 <span class="v">测试供应商</span></span></div>
+                <div class="tl-meta"><span>审核意见 <span class="v">测试保留模版test</span></span></div>
+                <div class="tl-meta"><span>客户问题 <span class="v">误购/不想要/不喜欢</span></span><span>审核依据 <span class="v">7天退</span></span></div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-c">
+                <div class="tl-title">领取</div>
+                <div class="tl-desc">领取服务单</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 历史服务单 -->
+          <div class="tab-pane" data-pane="history">
+            <div class="sum-row">
+              <div class="sum-card"><div class="lbl">历史退货</div><div class="big" style="color:var(--red)">2 次</div><div class="sub">近6个月同订单维度</div></div>
+              <div class="sum-card"><div class="lbl">历史换货</div><div class="big" style="color:var(--amber)">1 次</div><div class="sub">近6个月同订单维度</div></div>
+              <div class="sum-card"><div class="lbl">审核通过率</div><div class="big" style="color:var(--ink)">67%</div><div class="sub">3 单中 2 单通过</div></div>
+            </div>
+            <div class="section-h">历史服务单明细 <span class="note">同订单/同客户关联的历史售后单</span></div>
+            <table>
+              <thead><tr><th>服务单号</th><th>类型</th><th>商品</th><th>客户原因</th><th>审核结果</th><th>申请时间</th></tr></thead>
+              <tbody>
+                <tr><td class="t-num">JD25061xxx01</td><td><span class="pill pill-return">退货</span></td><td>测试纯白 31 2*1g</td><td>误购/不想要</td><td><span class="pill pill-pass">审核通过</span></td><td>2026-06-08</td></tr>
+                <tr><td class="t-num">JD25052xxx88</td><td><span class="pill pill-return">退货</span></td><td>测试纯白 31 2*1g</td><td>商品破损/化冻</td><td><span class="pill pill-pass">审核通过</span></td><td>2026-05-13</td></tr>
+                <tr><td class="t-num">JD25041xxx20</td><td><span class="pill pill-exchange">换货</span></td><td>测试纯白 31 2*1g</td><td>商品发错颜色</td><td><span class="pill pill-reject">审核拒绝</span></td><td>2026-04-22</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 挽单信息 -->
+          <div class="tab-pane" data-pane="retain">
+            <div class="section-h">挽单方案领取 <span class="note">用户是否领取过挽单/补偿方案</span></div>
+            <div class="retain-card">
+              <div class="retain-ic">🎁</div>
+              <div class="retain-main">
+                <div class="t">已领取挽单方案 · 小额打款补偿</div>
+                <div class="d">领取时间 2026-07-21 10:12　方案类型：小额打款挽留　状态：<span class="pill pill-ing">已领取·待打款</span></div>
+              </div>
+              <div class="retain-amt"><div class="n">¥ 0.00</div><div class="l">实际打款金额</div></div>
+            </div>
+            <div class="legend"><span><b>说明：</b>用户已领取小额打款挽单方案但商家尚未打款；若本单同意退款，需留意是否与挽单补偿重复。</span></div>
+          </div>
+
+          <!-- 退款记录（参考退款记录.png） -->
+          <div class="tab-pane" data-pane="refund">
+            <div class="legend" style="margin:0 0 14px;padding:10px 12px;border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:8px;color:var(--amber)">
+              1. 历史退款记录仅支持 2025/4/1 之后创建的订单，仅统计退款/打款成功的订单；已退次数标签周期为近6个月。<br>2. 售后退款以子订单维度统计，小额打款以主订单维度统计。
+            </div>
+            <div class="section-h">售后退款 <span class="note">此订单已售后成功 1 次；已售后成功金额 ¥5.30</span></div>
+            <table>
+              <thead><tr><th>退款编号</th><th>退款类型</th><th>申请时间</th><th>完成时间</th><th>退款原因</th><th>退款金额</th></tr></thead>
+              <tbody>
+                <tr><td class="t-num">27065074899xxxxx</td><td>已收货仅退款</td><td>2026-06-08 16:05:19</td><td>2026-06-08 16:17:42</td><td>做工粗糙/有瑕疵</td><td class="amt">¥5.30</td></tr>
+              </tbody>
+            </table>
+            <div class="section-h">小额打款 <span class="note">主订单已小额打款 0 次；总计打款金额 ¥0.00</span></div>
+            <table>
+              <thead><tr><th>打款订单号</th><th>打款类型</th><th>打款人</th><th>打款时间</th><th>打款金额</th><th>给消费者留言</th></tr></thead>
+              <tbody><tr><td colspan="6" class="empty"><span class="ic">📭</span>没有数据</td></tr></tbody>
+            </table>
+            <div class="section-h">商家赔付 <span class="note">已给买家赔付 0 次；总计赔付金额 ¥0.00</span></div>
+            <table>
+              <thead><tr><th>赔付商品</th><th>赔付类型</th><th>赔付时间</th><th>状态</th><th>赔付金额</th></tr></thead>
+              <tbody><tr><td colspan="5" class="empty"><span class="ic">📭</span>没有数据</td></tr></tbody>
+            </table>
+          </div>
+
+          <!-- 协商历史（参考历史会话.png） -->
+          <div class="tab-pane" data-pane="conv">
+            <div class="conv-head">
+              <div style="font-weight:600;margin-bottom:8px">最新会话总结 <span class="conv-badge">商品发错问题</span></div>
+              <div class="conv-grid">
+                <div class="field"><span class="k">会话周期</span><span class="v">2026-05-09 11:26 ~ 2026-05-15 20:43</span></div>
+                <div class="field"><span class="k">进线原因</span><span class="v">商家发错商品颜色</span></div>
+                <div class="field"><span class="k">进线诉求</span><span class="v">要求退货退款</span></div>
+                <div class="field"><span class="k">会话态度</span><span class="v">🙂 态度较为平和</span></div>
+                <div class="field"><span class="k">沟通结果</span><span class="v" style="color:var(--red)">未就换货或补偿达成一致</span></div>
+                <div class="field"><span class="k">消费者凭证</span><span class="v"><span class="evi"></span> <span class="evi"></span></span></div>
+              </div>
+            </div>
+            <div class="section-h">会话记录 <span class="note">对话时间排序</span></div>
+            <div class="chat">
+              <div class="msg left"><div class="who">消费者　05-13 12:24</div><div class="bubble">天热了，也用不到了</div></div>
+              <div class="msg right"><div class="who">优纳轻奢服饰　05-13 12:24</div><div class="bubble">亲，如果需要取消订单的话，可以在您的订单详情页上找到相关的操作哦～</div></div>
+              <div class="msg left"><div class="who">消费者　05-13 12:26</div><div class="bubble">那我申请退货了</div></div>
+              <div class="msg right"><div class="who">客服助手　05-13 12:26</div><div class="bubble">好的亲，已为您记录，退货流程会有专人跟进～</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 右栏 -->
+    <div class="col-right">
+      <div class="panel">
+        <div class="panel-h">售后商品信息</div>
+        <div class="panel-b">
+          <div class="prod">
+            <div class="prod-img">🏺</div>
+            <div class="prod-info">
+              <div class="prod-price"><div class="p">¥1.00</div><div class="n">x1</div></div>
+              <div class="prod-name">测试testhathaway-test-厂直 纯白 31 2 2*1g</div>
+              <div class="prod-spec">22*1g；31</div>
+              <div style="margin-top:6px"><span class="mini-tag">有附件</span></div>
+            </div>
+          </div>
+          <div style="text-align:right;color:var(--ink3);font-size:12px;margin-top:10px">共 1 件商品</div>
+          <div class="hr"></div>
+          <div class="field"><span class="k">订单编号</span><span class="v">3xxxxxxx 📋 <span class="mini-tag">广ছ直送</span></span></div>
+          <div class="field"><span class="k">订单完成时间</span><span class="v">2026-07-20 21:35:50 距申请0天</span></div>
+          <div class="field"><span class="k">发票信息</span><span class="v">数电普票 26117000001087905300<br>2026-07-20 21:37:31 距申请0天<br>可直接冲红</span></div>
+          <div class="field"><span class="k">下单账号</span><span class="v">jd_57d7008c7cdb4 <span class="badge badge-blue">PLUS</span></span></div>
+          <div class="field"><span class="k">客户姓名</span><span class="v">测试</span></div>
+          <div class="field"><span class="k">客户电话</span><span class="v">1xx****xx 👁</span></div>
+          <div class="field"><span class="k">收货地址</span><span class="v">北京市****</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-h">💡 常见问题</div>
+        <div class="panel-b" style="font-size:12.5px;color:var(--ink2)">1、申请原因不对影响质量分？友好协商工具来帮你！</div>
+      </div>
+      <div class="panel">
+        <div class="panel-h">售后工具</div>
+        <div class="panel-b">
+          <div class="tool-grid">
+            <div class="tool"><div class="tool-ic tool-1">📮</div><span>小额打款</span></div>
+            <div class="tool"><div class="tool-ic tool-2">🔔</div><span>紧急报备</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:var(--ink3);font-size:11px;margin:20px 0">服务单详情规划 · AI 审核增强原型 v0.1 · 数据为演示 mock</div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('#tabs .tab');
+  var panes=document.querySelectorAll('.tab-pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('active')});
+      panes.forEach(function(x){x.classList.remove('active')});
+      t.classList.add('active');
+      document.querySelector('.tab-pane[data-pane="'+t.dataset.tab+'"]').classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
