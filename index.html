@@ -38,8 +38,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .a{color:var(--blue);cursor:pointer;text-decoration:none}
 
 /* ============ AI 卡片条 ============ */
-.ai-bar{margin:14px 0;background:linear-gradient(120deg,#f6f4ff 0%,#eef4ff 100%);border:1px solid var(--purple-line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
-.ai-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:linear-gradient(90deg,rgba(123,91,255,.10),rgba(47,107,255,.06));border-bottom:1px dashed var(--purple-line)}
+.ai-bar{margin:14px 0;background:linear-gradient(120deg,#f6f4ff 0%,#eef4ff 100%);border:1px solid var(--purple-line);border-radius:var(--radius-lg);box-shadow:var(--shadow)}
+.ai-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:linear-gradient(90deg,rgba(123,91,255,.10),rgba(47,107,255,.06));border-bottom:1px dashed var(--purple-line);border-radius:var(--radius-lg) var(--radius-lg) 0 0}
 .ai-avatar{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#7b5bff,#2f6bff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex:none;box-shadow:0 2px 6px rgba(123,91,255,.35)}
 .ai-title{font-weight:700;font-size:13px;color:#4a3fb0}
 .ai-concl{display:flex;align-items:center;gap:8px;flex:1;font-size:13px}
@@ -178,6 +178,50 @@ tr:hover td{background:#fafbfc}
 .empty .ic{font-size:28px;opacity:.5;display:block;margin-bottom:8px}
 .legend{font-size:11px;color:var(--ink3);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:flex;gap:16px;flex-wrap:wrap}
 .legend b{color:var(--ink2)}
+
+/* ============ 物流跟踪轨迹 ============ */
+.lg-sub{font-weight:600;margin-bottom:10px}
+.lg-info{display:flex;align-items:center;gap:8px;font-size:12.5px;margin-bottom:14px}
+.lg-info .k{color:var(--ink3);width:78px;flex:none}
+.lg-info .carrier{color:var(--ink);font-weight:600}
+.lg-info .no{color:var(--ink2);letter-spacing:.3px}
+.lg-info .copy{cursor:pointer;color:var(--ink3);font-size:12px}
+.lg-info .copy:hover{color:var(--blue)}
+.lg-track{padding-left:2px}
+.lg-node{display:grid;grid-template-columns:14px 132px 1fr;gap:0 14px;position:relative;padding-bottom:20px}
+.lg-node:not(:last-child)::before{content:'';position:absolute;left:5px;top:14px;bottom:0;width:1px;background:var(--line)}
+.lg-node .lg-dot{width:11px;height:11px;border-radius:50%;margin-top:2px;background:#c4c8ce;flex:none;z-index:1}
+.lg-node.cur .lg-dot{background:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+.lg-node.warn .lg-dot{background:var(--blue)}
+.lg-time{font-size:12px;color:var(--ink3);padding-top:1px}
+.lg-node.cur .lg-time{color:var(--ink2);font-weight:600}
+.lg-body .lg-status{font-size:13px;font-weight:600;color:var(--ink2)}
+.lg-node.cur .lg-body .lg-status{color:var(--ink)}
+.lg-node.warn .lg-body .lg-status{color:var(--red)}
+.lg-body .lg-txt{font-size:12.5px;color:var(--ink3);margin-top:5px;line-height:1.6}
+
+/* ============ AI 处理按钮 ============ */
+.ai-acts{display:flex;gap:8px;padding:10px 18px 12px;border-bottom:1px dashed var(--purple-line);flex-wrap:wrap;align-items:center}
+.ai-acts .lbl{font-size:11px;color:var(--ink3);margin-right:2px}
+.ai-btn{border:1px solid var(--purple-line);background:#fff;color:#4a3fb0;padding:5px 13px;border-radius:16px;cursor:pointer;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px;transition:.15s}
+.ai-btn:hover{background:var(--purple-bg);border-color:var(--purple)}
+.ai-btn.primary{background:linear-gradient(135deg,#7b5bff,#2f6bff);border-color:transparent;color:#fff;box-shadow:0 2px 6px rgba(123,91,255,.28)}
+.ai-btn.primary:hover{filter:brightness(1.05)}
+.ai-btn .ico{font-size:12px}
+
+/* ============ 凭证照片浮层 ============ */
+.evi-wrap{position:relative;display:inline-block}
+.evi-hot{cursor:zoom-in;border-bottom:1px dashed var(--green-line)}
+.evi-pop{position:absolute;left:0;top:calc(100% + 8px);z-index:30;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(16,24,40,.16);padding:10px;display:none;width:288px}
+.evi-wrap:hover .evi-pop{display:block}
+.evi-pop::before{content:'';position:absolute;left:20px;top:-6px;width:10px;height:10px;background:#fff;border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
+.evi-pop .pt{font-size:11px;color:var(--ink3);margin-bottom:8px}
+.evi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.evi-thumb{aspect-ratio:1;border-radius:6px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:22px;background:#f7f8fa}
+.evi-thumb.c1{background:linear-gradient(135deg,#fde7e7,#fdecec)}
+.evi-thumb.c2{background:linear-gradient(135deg,#e7f0fd,#eaf1ff)}
+.evi-thumb.c3{background:linear-gradient(135deg,#e7f6ee,#eafaf0)}
+.evi-thumb.c4{background:linear-gradient(135deg,#fef4e2,#fef8ec)}
 </style>
 </head>
 <body>
@@ -212,6 +256,10 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="ai-feedback">智能分析是否有帮助 <span class="fb">👍</span><span class="fb">👎</span></div>
     </div>
+    <div class="ai-acts" id="aiActs">
+      <span class="lbl">建议处理：</span>
+      <!-- 按钮由脚本根据审核结论(agree/caution/reject)渲染 -->
+    </div>
     <div class="ai-cols">
       <!-- 列1 申请要点 -->
       <div class="ai-col">
@@ -219,10 +267,20 @@ tr:hover td{background:#fafbfc}
         <div class="chips">
           <span class="chip chip-red"><b>退货退款</b></span>
           <span class="chip">原因：外包装破损/化冻/冻坏</span>
-          <span class="chip">问题商品占比 71%~100%</span>
         </div>
         <div class="chips" style="margin-top:6px">
-          <span class="chip chip-green"><span class="ico">📷</span>已上传售后凭证</span>
+          <span class="evi-wrap">
+            <span class="chip chip-green evi-hot"><span class="ico">📷</span>已上传售后凭证</span>
+            <span class="evi-pop">
+              <div class="pt">售后凭证 · 共 4 张（悬停查看）</div>
+              <div class="evi-grid">
+                <div class="evi-thumb c1">📦</div>
+                <div class="evi-thumb c2">🧊</div>
+                <div class="evi-thumb c3">🏷️</div>
+                <div class="evi-thumb c4">📄</div>
+              </div>
+            </span>
+          </span>
           <span class="chip chip-blue">7天无理由</span>
           <span class="chip chip-amber">只换不修</span>
         </div>
@@ -232,11 +290,9 @@ tr:hover td{background:#fafbfc}
         <div class="ai-col-h"><span class="dot"></span>商品与时效</div>
         <div class="chips">
           <span class="chip chip-amber"><span class="ico">⏱</span>下单完成 <b>当天(0天)</b> 即申请</span>
-          <span class="chip">货损比 71%~100%</span>
         </div>
         <div class="chips" style="margin-top:6px">
           <span class="chip chip-blue">PLUS 会员</span>
-          <span class="chip">数电普票·可直接冲红</span>
         </div>
       </div>
       <!-- 列3 历史与风险 -->
@@ -285,8 +341,39 @@ tr:hover td{background:#fafbfc}
       <div class="panel">
         <div class="panel-h">物流信息</div>
         <div class="panel-b">
-          <div style="font-weight:600;margin-bottom:8px">发货物流</div>
-          <div class="field"><span class="k">物流信息</span><span class="v">XX快递　JDVA45871622465 📋</span></div>
+          <div class="lg-sub">发货物流</div>
+          <div class="lg-info">
+            <span class="k">物流信息</span>
+            <span class="carrier">京东快递</span>
+            <span class="no">JDVA43678024421</span>
+            <span class="copy" title="复制单号">📋</span>
+          </div>
+          <div class="lg-track">
+            <div class="lg-node warn">
+              <div class="lg-dot"></div>
+              <div class="lg-time">04-30 18:48:41</div>
+              <div class="lg-body">
+                <div class="lg-status">物流异常</div>
+                <div class="lg-txt">发起拦截，异常类型：运营拦截，拦截类型：运营退货拦截</div>
+              </div>
+            </div>
+            <div class="lg-node">
+              <div class="lg-dot"></div>
+              <div class="lg-time">04-30 18:48:40</div>
+              <div class="lg-body">
+                <div class="lg-status">运输中</div>
+                <div class="lg-txt">您的货物由于【寄件地址不详且联系不上客户】原因我司配送员未揽收成功，如有寄件需求请您重新下单，感谢您选择京东物流；</div>
+              </div>
+            </div>
+            <div class="lg-node">
+              <div class="lg-dot"></div>
+              <div class="lg-time">04-30 15:12:03</div>
+              <div class="lg-body">
+                <div class="lg-status">已下单</div>
+                <div class="lg-txt">您提交的退货订单已生成，等待揽收；取件地址：北京市****</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- ===== TAB 区 ===== -->
@@ -296,7 +383,7 @@ tr:hover td{background:#fafbfc}
           <div class="tab" data-tab="history">历史服务单<span class="count">3</span></div>
           <div class="tab" data-tab="retain">挽单信息<span class="count gray">1</span></div>
           <div class="tab" data-tab="refund">退款记录<span class="count gray">1</span></div>
-          <div class="tab" data-tab="conv">协商历史<span class="count">2</span></div>
+          <div class="tab" data-tab="conv">会话信息<span class="count">2</span></div>
         </div>
         <div class="tab-body">
 
@@ -466,6 +553,39 @@ tr:hover td{background:#fafbfc}
       t.classList.add('active');
       document.querySelector('.tab-pane[data-pane="'+t.dataset.tab+'"]').classList.add('active');
     });
+  });
+
+  // AI 处理按钮：根据审核结论展示对应的方案处理按钮
+  var ACTIONS={
+    agree:[
+      {t:'发送短信',ic:'✉',primary:true},
+      {t:'同意并派单',ic:'✅'},
+      {t:'发起小额打款',ic:'📮'}
+    ],
+    caution:[
+      {t:'发送短信',ic:'✉',primary:true},
+      {t:'核实售后凭证',ic:'📷'},
+      {t:'查看协商记录',ic:'💬'},
+      {t:'发起小额打款',ic:'📮'}
+    ],
+    reject:[
+      {t:'发送短信',ic:'✉',primary:true},
+      {t:'拒绝并回填原因',ic:'⛔'},
+      {t:'紧急报备',ic:'🔔'}
+    ]
+  };
+  var badge=document.querySelector('.concl-badge');
+  var concl='caution';
+  if(badge){
+    if(badge.classList.contains('concl-agree'))concl='agree';
+    else if(badge.classList.contains('concl-reject'))concl='reject';
+  }
+  var box=document.getElementById('aiActs');
+  (ACTIONS[concl]||[]).forEach(function(a){
+    var b=document.createElement('button');
+    b.className='ai-btn'+(a.primary?' primary':'');
+    b.innerHTML='<span class="ico">'+a.ic+'</span>'+a.t;
+    box.appendChild(b);
   });
 })();
 </script>
