@@ -51,7 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .ai-feedback{margin-left:auto;font-size:11px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex:none}
 .ai-feedback .fb{cursor:pointer;padding:2px 5px;border-radius:4px}
 .ai-feedback .fb:hover{background:#fff}
-.ai-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.ai-cols{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0}
 .ai-col{padding:12px 18px 14px;border-right:1px dashed var(--purple-line)}
 .ai-col:last-child{border-right:none}
 .ai-col-h{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:.5px;margin-bottom:9px;display:flex;align-items:center;gap:5px}
@@ -71,6 +71,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .kv-line{font-size:12px;color:var(--ink2);margin-top:5px;display:flex;gap:6px}
 .kv-line .k{color:var(--ink3);flex:none}
 .kv-line .v{color:var(--ink);font-weight:500}
+.ai-tip{margin-top:8px;font-size:11.5px;line-height:1.55;border-radius:6px;padding:7px 9px;display:flex;gap:6px;align-items:flex-start}
+.ai-tip .ti{flex:none;font-size:12px;margin-top:1px}
+.ai-tip.warn{background:var(--amber-bg);border:1px solid var(--amber-line);color:#8a5a00}
+.ai-tip.ok{background:var(--green-bg);border:1px solid var(--green-line);color:#0a7a3d}
+.ai-tip b{font-weight:700}
 
 /* ============ 主体两栏 ============ */
 .main{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:16px;align-items:start}
@@ -301,11 +306,26 @@ tr:hover td{background:#fafbfc}
         <div class="chips">
           <span class="chip chip-red"><span class="ico">⚠</span>历史退货 <b>2次</b></span>
           <span class="chip chip-amber">历史换货 <b>1次</b></span>
-          <span class="chip chip-green">领过挽单方案·未打款</span>
         </div>
         <div class="chips" style="margin-top:6px">
           <span class="chip">历史退款 ¥5.30</span>
           <span class="chip chip-red">咚咚：未就换货/补偿达成一致</span>
+        </div>
+      </div>
+      <!-- 列4 挽单分析 -->
+      <div class="ai-col">
+        <div class="ai-col-h"><span class="dot"></span>挽单分析</div>
+        <div class="chips">
+          <span class="chip chip-green"><span class="ico">📣</span>已曝光挽单方案</span>
+          <span class="chip chip-green">已领取</span>
+        </div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip chip-amber">方案：小额打款挽留</span>
+          <span class="chip">已打款 <b>¥0.00</b></span>
+        </div>
+        <div class="ai-tip ok">
+          <span class="ti">💡</span>
+          <span>客户 <b>已领取</b> 小额打款挽留方案（待打款），<b>不再重复推送挽单</b>；若本单同意退款，请留意补偿与退款是否重复。</span>
         </div>
       </div>
     </div>
@@ -381,7 +401,6 @@ tr:hover td{background:#fafbfc}
         <div class="tabs" id="tabs">
           <div class="tab active" data-tab="log">服务单日志</div>
           <div class="tab" data-tab="history">历史服务单<span class="count">3</span></div>
-          <div class="tab" data-tab="retain">挽单信息<span class="count gray">1</span></div>
           <div class="tab" data-tab="refund">退款记录<span class="count gray">1</span></div>
           <div class="tab" data-tab="conv">会话信息<span class="count">2</span></div>
         </div>
@@ -432,20 +451,6 @@ tr:hover td{background:#fafbfc}
                 <tr><td class="t-num">JD25041xxx20</td><td><span class="pill pill-exchange">换货</span></td><td>测试纯白 31 2*1g</td><td>商品发错颜色</td><td><span class="pill pill-reject">审核拒绝</span></td><td>2026-04-22</td></tr>
               </tbody>
             </table>
-          </div>
-
-          <!-- 挽单信息 -->
-          <div class="tab-pane" data-pane="retain">
-            <div class="section-h">挽单方案领取 <span class="note">用户是否领取过挽单/补偿方案</span></div>
-            <div class="retain-card">
-              <div class="retain-ic">🎁</div>
-              <div class="retain-main">
-                <div class="t">已领取挽单方案 · 小额打款补偿</div>
-                <div class="d">领取时间 2026-07-21 10:12　方案类型：小额打款挽留　状态：<span class="pill pill-ing">已领取·待打款</span></div>
-              </div>
-              <div class="retain-amt"><div class="n">¥ 0.00</div><div class="l">实际打款金额</div></div>
-            </div>
-            <div class="legend"><span><b>说明：</b>用户已领取小额打款挽单方案但商家尚未打款；若本单同意退款，需留意是否与挽单补偿重复。</span></div>
           </div>
 
           <!-- 退款记录（参考退款记录.png） -->
