@@ -76,6 +76,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .ai-tip.warn{background:var(--amber-bg);border:1px solid var(--amber-line);color:#8a5a00}
 .ai-tip.ok{background:var(--green-bg);border:1px solid var(--green-line);color:#0a7a3d}
 .ai-tip b{font-weight:700}
+.ai-disclaimer{text-align:right;font-size:11px;color:var(--ink3);padding:8px 18px 10px;border-top:1px dashed var(--purple-line)}
 
 /* ============ 主体两栏 ============ */
 .main{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:16px;align-items:start}
@@ -271,7 +272,7 @@ tr:hover td{background:#fafbfc}
         <div class="ai-col-h"><span class="dot"></span>申请要点</div>
         <div class="chips">
           <span class="chip chip-red"><b>退货退款</b></span>
-          <span class="chip">原因：外包装破损/化冻/冻坏</span>
+          <span class="chip" title="签收后开箱发现外包装凹陷破损，冷链断链导致商品化冻变质，无法正常食用">原因：外包装破损/化冻/冻坏</span>
         </div>
         <div class="chips" style="margin-top:6px">
           <span class="evi-wrap">
@@ -286,30 +287,39 @@ tr:hover td{background:#fafbfc}
               </div>
             </span>
           </span>
-          <span class="chip chip-blue">7天无理由</span>
+          <span class="chip chip-blue" title="此单为七天无理由类售后服务单，请参考《京东开放平台7天无理由退货规则》进行处理">7天无理由</span>
           <span class="chip chip-amber">只换不修</span>
+          <span class="chip chip-red" title="会话记录中消费者表示涉及人身伤害信息（触电）"><span class="ico">⚠</span>命中合规场景</span>
         </div>
       </div>
       <!-- 列2 商品与时效 -->
       <div class="ai-col">
         <div class="ai-col-h"><span class="dot"></span>商品与时效</div>
         <div class="chips">
-          <span class="chip chip-amber"><span class="ico">⏱</span>下单完成 <b>当天(0天)</b> 即申请</span>
+          <span class="chip chip-amber"><span class="ico">⏱</span>距签收 <b>当天(0天)</b> 即申请</span>
         </div>
         <div class="chips" style="margin-top:6px">
           <span class="chip chip-blue">PLUS 会员</span>
+          <span class="chip chip-blue">京享值 2000</span>
+          <span class="chip chip-blue">店铺会员</span>
+          <span class="chip chip-green">高价值用户</span>
         </div>
       </div>
-      <!-- 列3 历史与风险 -->
+      <!-- 列3 历史记录 -->
       <div class="ai-col">
-        <div class="ai-col-h"><span class="dot"></span>历史与风险</div>
+        <div class="ai-col-h"><span class="dot"></span>历史记录</div>
         <div class="chips">
-          <span class="chip chip-red"><span class="ico">⚠</span>历史退货 <b>2次</b></span>
-          <span class="chip chip-amber">历史换货 <b>1次</b></span>
+          <span class="chip chip-red" title="详细信息可在服务单【历史服务单】查看"><span class="ico">⚠</span>历史退货 <b>2次</b></span>
+          <span class="chip chip-amber" title="详细信息可在服务单【历史服务单】查看">历史换货 <b>1次</b></span>
         </div>
         <div class="chips" style="margin-top:6px">
-          <span class="chip">历史退款 ¥5.30</span>
-          <span class="chip chip-red">咚咚：未就换货/补偿达成一致</span>
+          <span class="chip" title="详细信息可在服务单【历史退款记录】查看">历史退款 ¥5.30</span>
+          <span class="chip" title="详细信息可在服务单【历史退款记录】查看">历史小额打款 ¥5.00</span>
+          <span class="chip" title="详细信息可在服务单【历史退款记录】查看">历史价保 ¥10.00</span>
+        </div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip chip-blue"><span class="ico">💬</span>有会话记录</span>
+          <span class="chip chip-red">会话未达成一致</span>
         </div>
       </div>
       <!-- 列4 挽单分析 -->
@@ -322,6 +332,7 @@ tr:hover td{background:#fafbfc}
         <div class="chips" style="margin-top:6px">
           <span class="chip chip-amber">方案：小额打款挽留</span>
           <span class="chip">已推送 <b>¥20</b></span>
+          <span class="chip chip-red">挽单时申请原因为商品质量问题</span>
         </div>
         <div class="ai-tip warn">
           <span class="ti">💡</span>
@@ -329,6 +340,7 @@ tr:hover td{background:#fafbfc}
         </div>
       </div>
     </div>
+    <div class="ai-disclaimer">⚠ 内容为 AI 生成，仅供参考</div>
   </div>
 
   <!-- ============ 主体两栏 ============ -->
