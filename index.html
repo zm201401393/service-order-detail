@@ -438,17 +438,18 @@ tr:hover td{background:#fafbfc}
           <!-- 历史服务单 -->
           <div class="tab-pane" data-pane="history">
             <div class="sum-row">
-              <div class="sum-card"><div class="lbl">历史退货</div><div class="big" style="color:var(--red)">2 次</div><div class="sub">近6个月同订单维度</div></div>
-              <div class="sum-card"><div class="lbl">历史换货</div><div class="big" style="color:var(--amber)">1 次</div><div class="sub">近6个月同订单维度</div></div>
+              <div class="sum-card"><div class="lbl">历史申请退货</div><div class="big" style="color:var(--red)">2 次</div></div>
+              <div class="sum-card"><div class="lbl">历史申请换货</div><div class="big" style="color:var(--amber)">1 次</div></div>
+              <div class="sum-card"><div class="lbl">历史申请维修</div><div class="big" style="color:var(--blue)">0 次</div></div>
               <div class="sum-card"><div class="lbl">审核通过率</div><div class="big" style="color:var(--ink)">67%</div><div class="sub">3 单中 2 单通过</div></div>
             </div>
-            <div class="section-h">历史服务单明细 <span class="note">同订单/同客户关联的历史售后单</span></div>
+            <div class="section-h">历史服务单明细 <span class="note">同订单关联的历史服务单</span></div>
             <table>
-              <thead><tr><th>服务单号</th><th>类型</th><th>商品</th><th>客户原因</th><th>审核结果</th><th>申请时间</th></tr></thead>
+              <thead><tr><th>服务单号</th><th>申请类型</th><th>商品</th><th>客户原因</th><th>审核类型</th><th>申请时间</th><th>历史服务单备注</th></tr></thead>
               <tbody>
-                <tr><td class="t-num">JD25061xxx01</td><td><span class="pill pill-return">退货</span></td><td>测试纯白 31 2*1g</td><td>误购/不想要</td><td><span class="pill pill-pass">审核通过</span></td><td>2026-06-08</td></tr>
-                <tr><td class="t-num">JD25052xxx88</td><td><span class="pill pill-return">退货</span></td><td>测试纯白 31 2*1g</td><td>商品破损/化冻</td><td><span class="pill pill-pass">审核通过</span></td><td>2026-05-13</td></tr>
-                <tr><td class="t-num">JD25041xxx20</td><td><span class="pill pill-exchange">换货</span></td><td>测试纯白 31 2*1g</td><td>商品发错颜色</td><td><span class="pill pill-reject">审核拒绝</span></td><td>2026-04-22</td></tr>
+                <tr><td class="t-num">JD25061xxx01</td><td><span class="pill pill-return">退货</span></td><td>测试纯白 31 2*1g / SKU100863201</td><td>误购/不想要</td><td><span class="pill pill-return">退货</span></td><td>2026-06-08</td><td>客户实为买多了想退部分</td></tr>
+                <tr><td class="t-num">JD25052xxx88</td><td><span class="pill pill-return">退货</span></td><td>测试纯白 31 2*1g / SKU100863201</td><td>商品破损/化冻</td><td><span class="pill pill-return">退货</span></td><td>2026-05-13</td><td>外包装破损致化冻，诉求退款</td></tr>
+                <tr><td class="t-num">JD25041xxx20</td><td><span class="pill pill-exchange">换货</span></td><td>测试纯白 31 2*1g / SKU100863198</td><td>商品发错颜色</td><td><span class="pill pill-reject">拒绝</span></td><td>2026-04-22</td><td>称发错色，凭证不符未通过</td></tr>
               </tbody>
             </table>
           </div>
@@ -460,20 +461,25 @@ tr:hover td{background:#fafbfc}
             </div>
             <div class="section-h">售后退款 <span class="note">此订单已售后成功 1 次；已售后成功金额 ¥5.30</span></div>
             <table>
-              <thead><tr><th>退款编号</th><th>退款类型</th><th>申请时间</th><th>完成时间</th><th>退款原因</th><th>退款金额</th></tr></thead>
+              <thead><tr><th>服务单号</th><th>退款状态</th><th>退款方式</th><th>退款金额</th><th>退款时间</th></tr></thead>
               <tbody>
-                <tr><td class="t-num">27065074899xxxxx</td><td>已收货仅退款</td><td>2026-06-08 16:05:19</td><td>2026-06-08 16:17:42</td><td>做工粗糙/有瑕疵</td><td class="amt">¥5.30</td></tr>
+                <tr><td class="t-num">27065074899xxxxx</td><td><span class="pill pill-pass">退款成功</span></td><td>原路退回</td><td class="amt">¥5.30</td><td>2026-06-08 16:17:42</td></tr>
               </tbody>
             </table>
             <div class="section-h">小额打款 <span class="note">主订单已小额打款 0 次；总计打款金额 ¥0.00</span></div>
             <table>
-              <thead><tr><th>打款订单号</th><th>打款类型</th><th>打款人</th><th>打款时间</th><th>打款金额</th><th>给消费者留言</th></tr></thead>
-              <tbody><tr><td colspan="6" class="empty"><span class="ic">📭</span>没有数据</td></tr></tbody>
+              <thead><tr><th>打款单</th><th>打款金额</th><th>打款原因</th><th>是否关联退款</th><th>打款状态</th><th>申请人</th><th>申请时间</th></tr></thead>
+              <tbody><tr><td colspan="7" class="empty"><span class="ic">📭</span>没有数据</td></tr></tbody>
             </table>
             <div class="section-h">商家赔付 <span class="note">已给买家赔付 0 次；总计赔付金额 ¥0.00</span></div>
             <table>
-              <thead><tr><th>赔付商品</th><th>赔付类型</th><th>赔付时间</th><th>状态</th><th>赔付金额</th></tr></thead>
+              <thead><tr><th>赔付单号</th><th>赔付方式</th><th>赔付状态</th><th>赔付金额</th><th>申请时间</th></tr></thead>
               <tbody><tr><td colspan="5" class="empty"><span class="ic">📭</span>没有数据</td></tr></tbody>
+            </table>
+            <div class="section-h">价保赔付 <span class="note">已价保成功 0 次；总计价保金额 ¥0.00</span></div>
+            <table>
+              <thead><tr><th>赔付单号</th><th>SKU编码</th><th>SKU数量</th><th>价保成功金额</th><th>用户账号</th><th>申请时间</th></tr></thead>
+              <tbody><tr><td colspan="6" class="empty"><span class="ic">📭</span>没有数据</td></tr></tbody>
             </table>
           </div>
 
