@@ -51,6 +51,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .ai-feedback{margin-left:auto;font-size:11px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex:none}
 .ai-feedback .fb{cursor:pointer;padding:2px 5px;border-radius:4px}
 .ai-feedback .fb:hover{background:#fff}
+/* 头部右方：事实总结（辅助） */
+.ai-fact-inline{flex:1;min-width:0;font-size:12.5px;color:var(--ink2);line-height:1.6;display:flex;align-items:baseline;gap:8px}
+.fact-lbl{flex:none;font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:.5px}
+/* 方案建议行（结论徽章 + 文案 + 按钮紧随） */
+.ai-body{padding:12px 18px 13px}
+.ai-advice-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ai-advice-row .concl-badge{flex:none}
+.ai-advice-row .adv-v{font-size:13.5px;color:var(--ink);font-weight:500;line-height:1.6}
+.ai-btns{display:flex;gap:8px;flex:none}
 .ai-cols{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0}
 .ai-col{padding:12px 18px 14px;border-right:1px dashed var(--purple-line)}
 .ai-col:last-child{border-right:none}
@@ -253,18 +262,24 @@ tr:hover td{background:#fafbfc}
 
   <!-- ============ AI 关键信息提取卡片条 ============ -->
   <div class="ai-bar">
+    <!-- 头部：AI 标识 + 事实总结（右方辅助）+ 反馈 -->
     <div class="ai-head">
       <div class="ai-avatar">✦</div>
       <div class="ai-title">AI 审核助手</div>
-      <div class="ai-concl">
-        <span class="concl-badge concl-caution">建议谨慎审核</span>
-        <span class="concl-text">该客户 <b>近6个月已退货2次</b>、当前商品完成当天即申请，存在薅羊毛风险，建议核实凭证与协商记录后再决策。</span>
-      </div>
+      <div class="ai-fact-inline"><span class="fact-lbl">事实总结</span>客户以外包装破损致商品化冻为由申请退货，已上传售后凭证，与客服协商退款未达成一致。</div>
       <div class="ai-feedback">智能分析是否有帮助 <span class="fb">👍</span><span class="fb">👎</span></div>
     </div>
-    <div class="ai-acts" id="aiActs">
-      <span class="lbl">建议处理：</span>
-      <!-- 按钮由脚本根据审核结论(agree/caution/reject)渲染 -->
+    <!-- 方案建议（结论 + 文案 + 按钮紧随） -->
+    <div class="ai-body">
+      <div class="ai-advice-row">
+        <span class="concl-badge concl-caution">建议谨慎</span>
+        <span class="adv-v">近6个月已退货2次、协商未达成一致，建议先核实凭证再决策。</span>
+        <span class="ai-btns">
+          <button class="ai-btn"><span class="ico">📮</span>小额打款</button>
+          <button class="ai-btn"><span class="ico">📞</span>联系用户</button>
+          <button class="ai-btn"><span class="ico">✉</span>发送短信</button>
+        </span>
+      </div>
     </div>
     <div class="ai-cols">
       <!-- 列1 申请要点 -->
@@ -563,7 +578,7 @@ tr:hover td{background:#fafbfc}
     </div>
   </div>
 
-  <div style="text-align:center;color:var(--ink3);font-size:11px;margin:20px 0">服务单详情规划 · AI 审核增强原型 v0.1 · 数据为演示 mock</div>
+  <div style="text-align:center;color:var(--ink3);font-size:11px;margin:20px 0">服务单详情规划 · AI 审核增强原型 v0.3 · 数据为演示 mock</div>
 </div>
 
 <script>
@@ -577,38 +592,6 @@ tr:hover td{background:#fafbfc}
       t.classList.add('active');
       document.querySelector('.tab-pane[data-pane="'+t.dataset.tab+'"]').classList.add('active');
     });
-  });
-
-  // AI 处理按钮：根据审核结论展示对应的方案处理按钮
-  var ACTIONS={
-    agree:[
-      {t:'发送短信',ic:'✉',primary:true},
-      {t:'同意并派单',ic:'✅'},
-      {t:'发起小额打款',ic:'📮'}
-    ],
-    caution:[
-      {t:'发送短信',ic:'✉',primary:true},
-      {t:'联系用户',ic:'📞'},
-      {t:'发起小额打款',ic:'📮'}
-    ],
-    reject:[
-      {t:'发送短信',ic:'✉',primary:true},
-      {t:'拒绝并回填原因',ic:'⛔'},
-      {t:'紧急报备',ic:'🔔'}
-    ]
-  };
-  var badge=document.querySelector('.concl-badge');
-  var concl='caution';
-  if(badge){
-    if(badge.classList.contains('concl-agree'))concl='agree';
-    else if(badge.classList.contains('concl-reject'))concl='reject';
-  }
-  var box=document.getElementById('aiActs');
-  (ACTIONS[concl]||[]).forEach(function(a){
-    var b=document.createElement('button');
-    b.className='ai-btn'+(a.primary?' primary':'');
-    b.innerHTML='<span class="ico">'+a.ic+'</span>'+a.t;
-    box.appendChild(b);
   });
 })();
 </script>
