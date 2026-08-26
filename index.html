@@ -51,9 +51,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .ai-feedback{margin-left:auto;font-size:11px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex:none}
 .ai-feedback .fb{cursor:pointer;padding:2px 5px;border-radius:4px}
 .ai-feedback .fb:hover{background:#fff}
-/* 头部右方：智能总结 */
-.ai-fact-inline{flex:1;min-width:0;font-size:13.5px;color:var(--ink);font-weight:500;line-height:1.6;display:flex;align-items:baseline;gap:8px}
-.fact-lbl{flex:none;font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:.5px}
+/* 头部右方：免责提示 + 反馈 */
+.ai-feedback .ai-note{padding-right:12px;margin-right:12px;border-right:1px solid var(--purple-line)}
+.fact-lbl{flex:none;font-size:13px;color:#4a3fb0;font-weight:700;letter-spacing:.5px}
 /* 方案建议行（结论徽章 + 文案 + 按钮紧随） */
 .ai-body{padding:12px 18px 13px}
 .ai-advice-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -85,7 +85,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .ai-tip.warn{background:var(--amber-bg);border:1px solid var(--amber-line);color:#8a5a00}
 .ai-tip.ok{background:var(--green-bg);border:1px solid var(--green-line);color:#0a7a3d}
 .ai-tip b{font-weight:700}
-.ai-disclaimer{text-align:right;font-size:11px;color:var(--ink3);padding:8px 18px 10px;border-top:1px dashed var(--purple-line)}
 
 /* ============ 主体两栏 ============ */
 .main{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:16px;align-items:start}
@@ -101,6 +100,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;margin-right:5px}
 .badge-red{background:var(--red-bg);color:var(--red)}
 .badge-blue{background:var(--blue-bg);color:var(--blue)}
+.badge-amber{background:var(--amber-bg);color:var(--amber)}
 .evi{width:34px;height:34px;border-radius:6px;background:#f0f1f3 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%239298a1" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>') center/20px no-repeat;border:1px solid var(--line);display:inline-block;vertical-align:middle}
 
 /* 右栏 */
@@ -244,7 +244,7 @@ tr:hover td{background:#fafbfc}
 
   <!-- ============ 顶部状态区 ============ -->
   <div class="topbar">
-    <div class="top-title">客户申请退货，待商家审核</div>
+    <div class="top-title">客户申请换货，待商家审核</div>
     <div class="top-sub">考核已于 2026-07-21 09:20:00 超时，请尽快处理，避免引起用户投诉</div>
     <div class="actions">
       <button class="btn btn-primary">同意申请</button>
@@ -262,22 +262,24 @@ tr:hover td{background:#fafbfc}
 
   <!-- ============ AI 关键信息提取卡片条 ============ -->
   <div class="ai-bar">
-    <!-- 头部：AI 标识 + 智能总结（右方）+ 反馈 -->
+    <!-- 头部：AI 标识 + 免责提示/反馈（右方） -->
     <div class="ai-head">
       <div class="ai-avatar">✦</div>
       <div class="ai-title">AI 审核助手</div>
-      <div class="ai-fact-inline"><span class="fact-lbl">智能总结</span>客户以外包装破损致商品化冻为由申请退货，已上传售后凭证，与客服协商退款未达成一致。</div>
-      <div class="ai-feedback">智能分析是否有帮助 <span class="fb">👍</span><span class="fb">👎</span></div>
+      <div class="ai-feedback"><span class="ai-note">以下内容由AI分析生成，仅供参考</span>AI分析是否有帮助 <span class="fb">👍</span><span class="fb">👎</span></div>
     </div>
-    <!-- 方案建议（结论 + 文案 + 按钮紧随） -->
+    <!-- AI总结 + AI建议（标签 + 文案 + 按钮紧随） -->
     <div class="ai-body">
       <div class="ai-advice-row">
-        <span class="concl-badge concl-caution">建议谨慎</span>
-        <span class="adv-v">近6个月已退货2次、协商未达成一致，建议先核实凭证再决策。</span>
+        <span class="fact-lbl">AI总结</span>
+        <span class="adv-v">客户反馈包装及泡沫破损、机器边角变形，要求换货，客服同意并指导上传凭证后客户完成上传。</span>
+      </div>
+      <div class="ai-advice-row" style="margin-top:8px">
+        <span class="fact-lbl">AI建议</span>
+        <span class="adv-v">商品支持7天无理由政策，图片显示设备底部有明显污渍，且申请时间在订单完成7天之内，商品状态完好，建议尽快审核/引导补偿留用。</span>
         <span class="ai-btns">
+          <button class="ai-btn"><span class="ico">✅</span>同意申请</button>
           <button class="ai-btn"><span class="ico">📮</span>小额打款</button>
-          <button class="ai-btn"><span class="ico">📞</span>联系用户</button>
-          <button class="ai-btn"><span class="ico">✉</span>发送短信</button>
         </span>
       </div>
     </div>
@@ -286,8 +288,8 @@ tr:hover td{background:#fafbfc}
       <div class="ai-col">
         <div class="ai-col-h"><span class="dot"></span>申请要点</div>
         <div class="chips">
-          <span class="chip chip-red"><b>退货退款</b></span>
-          <span class="chip" title="签收后开箱发现外包装凹陷破损，冷链断链导致商品化冻变质，无法正常食用">原因：外包装破损/化冻/冻坏</span>
+          <span class="chip chip-amber"><b>换货</b></span>
+          <span class="chip" title="签收后开箱发现外包装及泡沫破损、机器边角变形，设备底部有明显污渍">原因：商品破损/脏污</span>
         </div>
         <div class="chips" style="margin-top:6px">
           <span class="evi-wrap">
@@ -296,22 +298,25 @@ tr:hover td{background:#fafbfc}
               <div class="pt">售后凭证 · 共 4 张（悬停查看）</div>
               <div class="evi-grid">
                 <div class="evi-thumb c1">📦</div>
-                <div class="evi-thumb c2">🧊</div>
+                <div class="evi-thumb c2">💥</div>
                 <div class="evi-thumb c3">🏷️</div>
-                <div class="evi-thumb c4">📄</div>
+                <div class="evi-thumb c4">📷</div>
               </div>
             </span>
           </span>
-          <span class="chip chip-blue" title="此单为七天无理由类售后服务单，请参考《京东开放平台7天无理由退货规则》进行处理">7天无理由</span>
+          <span class="chip chip-blue" title="此单为七天无理由类售后服务单，请参考《京东开放平台7天无理由退换货规则》进行处理">7天无理由</span>
           <span class="chip chip-amber">只换不修</span>
-          <span class="chip chip-red" title="会话记录中消费者表示涉及人身伤害信息（触电）"><span class="ico">⚠</span>命中合规场景</span>
+        </div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip chip-blue"><span class="ico">💬</span>有会话记录</span>
+          <span class="chip chip-red">会话达成一致</span>
         </div>
       </div>
       <!-- 列2 商品与时效 -->
       <div class="ai-col">
         <div class="ai-col-h"><span class="dot"></span>商品与时效</div>
         <div class="chips">
-          <span class="chip chip-amber"><span class="ico">⏱</span>距签收 <b>当天(0天)</b> 即申请</span>
+          <span class="chip chip-green"><span class="ico">⏱</span>订单完成 <b>当天(0天)</b> 即申请，7天无理由期内</span>
         </div>
         <div class="chips" style="margin-top:6px">
           <span class="chip chip-blue">PLUS 会员</span>
@@ -332,10 +337,6 @@ tr:hover td{background:#fafbfc}
           <span class="chip" title="详细信息可在服务单【历史退款记录】查看">历史小额打款 ¥5.00</span>
           <span class="chip" title="详细信息可在服务单【历史退款记录】查看">历史价保 ¥10.00</span>
         </div>
-        <div class="chips" style="margin-top:6px">
-          <span class="chip chip-blue"><span class="ico">💬</span>有会话记录</span>
-          <span class="chip chip-red">会话未达成一致</span>
-        </div>
       </div>
       <!-- 列4 挽单分析 -->
       <div class="ai-col">
@@ -347,7 +348,7 @@ tr:hover td{background:#fafbfc}
         <div class="chips" style="margin-top:6px">
           <span class="chip chip-amber">方案：小额打款挽留</span>
           <span class="chip">已推送 <b>¥20</b></span>
-          <span class="chip chip-red">挽单时申请原因为商品质量问题</span>
+          <span class="chip chip-red">挽单时申请原因为商品破损/脏污</span>
         </div>
         <div class="ai-tip warn">
           <span class="ti">💡</span>
@@ -355,7 +356,6 @@ tr:hover td{background:#fafbfc}
         </div>
       </div>
     </div>
-    <div class="ai-disclaimer">⚠ 内容为 AI 生成，仅供参考</div>
   </div>
 
   <!-- ============ 主体两栏 ============ -->
@@ -371,15 +371,15 @@ tr:hover td{background:#fafbfc}
           <div class="grid2">
             <div class="field"><span class="k">服务单号</span><span class="v">JD2507xxxx</span></div>
             <div class="field"><span class="k">申请时订单状态</span><span class="v">-</span></div>
-            <div class="field"><span class="k">售后类型</span><span class="v"><span class="badge badge-red">退</span>退货</span></div>
-            <div class="field"><span class="k">售后政策</span><span class="v">支持7天无理由退货</span></div>
+            <div class="field"><span class="k">售后类型</span><span class="v"><span class="badge badge-amber">换</span>换货</span></div>
+            <div class="field"><span class="k">售后政策</span><span class="v">支持7天无理由退换货</span></div>
             <div class="field"><span class="k">申退金额</span><span class="v">-</span></div>
             <div class="field"><span class="k">商品件数</span><span class="v">1</span></div>
-            <div class="field"><span class="k">返件方式</span><span class="v"><span class="badge badge-red">退</span>客户发货</span></div>
-            <div class="field"><span class="k">货损比例</span><span class="v">71%~100%</span></div>
-            <div class="field"><span class="k">售后原因</span><span class="v">商品外包装破损/化冻/冻坏</span></div>
-            <div class="field"><span class="k">商品状态</span><span class="v">-</span></div>
-            <div class="field"><span class="k">问题描述</span><span class="v">11 问题商品占比：71%~100%</span></div>
+            <div class="field"><span class="k">返件方式</span><span class="v"><span class="badge badge-amber">换</span>客户发货</span></div>
+            <div class="field"><span class="k">货损比例</span><span class="v">1%~30%</span></div>
+            <div class="field"><span class="k">售后原因</span><span class="v">商品破损/脏污</span></div>
+            <div class="field"><span class="k">商品状态</span><span class="v">已拆封，功能完好</span></div>
+            <div class="field"><span class="k">问题描述</span><span class="v">外包装及泡沫破损，机器边角变形，设备底部有明显污渍</span></div>
             <div class="field"><span class="k">售后凭证</span><span class="v"><span class="evi"></span></span></div>
           </div>
         </div>
@@ -417,7 +417,7 @@ tr:hover td{background:#fafbfc}
               <div class="lg-time">04-30 15:12:03</div>
               <div class="lg-body">
                 <div class="lg-status">已下单</div>
-                <div class="lg-txt">您提交的退货订单已生成，等待揽收；取件地址：北京市****</div>
+                <div class="lg-txt">您提交的换货返件订单已生成，等待揽收；取件地址：北京市****</div>
               </div>
             </div>
           </div>
@@ -450,7 +450,7 @@ tr:hover td{background:#fafbfc}
                 <div class="tl-desc">服务单由[测试供应商]审核通过，系统已自动派发上门取件任务，预约取件时间 2026-07-23 (周四) 08:00-10:00</div>
                 <div class="tl-meta"><span>操作时间 <span class="v">2026-07-22 21:00:16</span></span><span>操作人 <span class="v">测试供应商</span></span></div>
                 <div class="tl-meta"><span>审核意见 <span class="v">测试保留模版test</span></span></div>
-                <div class="tl-meta"><span>客户问题 <span class="v">误购/不想要/不喜欢</span></span><span>审核依据 <span class="v">7天退</span></span></div>
+                <div class="tl-meta"><span>客户问题 <span class="v">商品破损/脏污</span></span><span>审核依据 <span class="v">7天退换</span></span></div>
               </div>
             </div>
             <div class="tl-item">
@@ -513,23 +513,23 @@ tr:hover td{background:#fafbfc}
           <!-- 协商历史（参考历史会话.png） -->
           <div class="tab-pane" data-pane="conv">
             <div class="conv-head">
-              <div style="font-weight:600;margin-bottom:8px">会话总结 <span class="conv-badge">商品发错问题</span></div>
+              <div style="font-weight:600;margin-bottom:8px">会话总结 <span class="conv-badge">商品破损/脏污</span></div>
               <div class="conv-grid">
-                <div class="field"><span class="k">会话周期</span><span class="v">2026-05-09 11:26 ~ 2026-05-15 20:43</span></div>
-                <div class="field"><span class="k">进线原因</span><span class="v">商家发错商品颜色</span></div>
-                <div class="field"><span class="k">进线诉求</span><span class="v">要求退货退款</span></div>
-                <div class="field"><span class="k">客服方案</span><span class="v">可换货补发/或退差价补偿，运费商家承担</span></div>
+                <div class="field"><span class="k">会话周期</span><span class="v">2026-07-20 21:40 ~ 2026-07-20 22:02</span></div>
+                <div class="field"><span class="k">进线原因</span><span class="v">外包装及泡沫破损、机器边角变形</span></div>
+                <div class="field"><span class="k">进线诉求</span><span class="v">要求换货</span></div>
+                <div class="field"><span class="k">客服方案</span><span class="v">同意换货，指导客户上传凭证后登记换货申请</span></div>
                 <div class="field"><span class="k">会话态度</span><span class="v">🙂 态度较为平和</span></div>
-                <div class="field"><span class="k">沟通结果</span><span class="v" style="color:var(--red)">未就换货或补偿达成一致</span></div>
+                <div class="field"><span class="k">沟通结果</span><span class="v" style="color:var(--green)">达成一致：同意换货</span></div>
                 <div class="field"><span class="k">消费者凭证</span><span class="v"><span class="evi"></span> <span class="evi"></span></span></div>
               </div>
             </div>
             <div class="section-h">会话记录 <span class="note">对话时间排序</span></div>
             <div class="chat">
-              <div class="msg left"><div class="who">消费者　05-13 12:24</div><div class="bubble">天热了，也用不到了</div></div>
-              <div class="msg right"><div class="who">优纳轻奢服饰　05-13 12:24</div><div class="bubble">亲，如果需要取消订单的话，可以在您的订单详情页上找到相关的操作哦～</div></div>
-              <div class="msg left"><div class="who">消费者　05-13 12:26</div><div class="bubble">那我申请退货了</div></div>
-              <div class="msg right"><div class="who">客服助手　05-13 12:26</div><div class="bubble">好的亲，已为您记录，退货流程会有专人跟进～</div></div>
+              <div class="msg left"><div class="who">消费者　07-20 21:40</div><div class="bubble">刚收到的空气净化器，外包装和里面的泡沫都破了，机器边角也磕变形了，底部还有一块明显的污渍</div></div>
+              <div class="msg right"><div class="who">商家客服　07-20 21:43</div><div class="bubble">非常抱歉给您带来不好的体验～麻烦您拍摄外包装、泡沫破损以及机器边角、底部污渍的照片上传一下哦</div></div>
+              <div class="msg left"><div class="who">消费者　07-20 21:50</div><div class="bubble">拍好了，已经上传了</div></div>
+              <div class="msg right"><div class="who">客服助手　07-20 22:02</div><div class="bubble">凭证已收到～已为您登记换货申请，审核通过后将尽快为您安排新机发出</div></div>
             </div>
           </div>
 
@@ -543,11 +543,11 @@ tr:hover td{background:#fafbfc}
         <div class="panel-h">售后商品信息</div>
         <div class="panel-b">
           <div class="prod">
-            <div class="prod-img">🏺</div>
+            <div class="prod-img">🌬️</div>
             <div class="prod-info">
-              <div class="prod-price"><div class="p">¥1.00</div><div class="n">x1</div></div>
-              <div class="prod-name">测试testhathaway-test-厂直 纯白 31 2 2*1g</div>
-              <div class="prod-spec">22*1g；31</div>
+              <div class="prod-price"><div class="p">¥1299.00</div><div class="n">x1</div></div>
+              <div class="prod-name">美的（Midea）空气净化器 家用除甲醛除菌除PM2.5 数显</div>
+              <div class="prod-spec">KJ350G-GX03；白色</div>
               <div style="margin-top:6px"><span class="mini-tag">有附件</span></div>
             </div>
           </div>
@@ -578,7 +578,7 @@ tr:hover td{background:#fafbfc}
     </div>
   </div>
 
-  <div style="text-align:center;color:var(--ink3);font-size:11px;margin:20px 0">服务单详情规划 · AI 审核增强原型 v0.3 · 数据为演示 mock</div>
+  <div style="text-align:center;color:var(--ink3);font-size:11px;margin:20px 0">服务单详情规划 · AI 审核增强原型 v0.4 · 数据为演示 mock</div>
 </div>
 
 <script>
